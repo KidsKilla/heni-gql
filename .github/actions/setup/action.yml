@@ -1,0 +1,30 @@
+name: 🏗️ Prepare
+description: 'Sets up a job with the required versions of Node and yarn'
+inputs:
+  node_version:
+    description: Target major version of Node used.
+    required: false
+    default: '16'
+  github_token:
+    description: Github Token
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: ⬇️ Checkout repository
+      uses: actions/checkout@v3
+    - name: ⬇️ Setup node 16
+      uses: actions/setup-node@v3
+      with:
+        node-version-file: '.nvmrc'
+    - uses: actions/cache@v2
+      id: npm-cache
+      with:
+        path: ./node_modules
+        key: npm-yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+
+    - name: Install modules
+      if: steps.npm-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |-
+        yarn install --frozen-lockfile
