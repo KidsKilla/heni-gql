@@ -1,0 +1,47 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/api/src",
+  "projectType": "library",
+  "targets": {
+    "gen-gql": {
+      "executor": "nx:run-commands",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "./src/gql/schema.json",
+        "cwd": "libs/api",
+        "commands": [
+          "export ENDPOINT=$(node -e 'console.log(require(\"./src/gql/config.json\").endpoint)')",
+          "npx apollo service:download --endpoint=$ENDPOINT ./src/gql/schema.json",
+          "npx apollo-codegen generate --schema=./src/gql/schema.json  --target=typescript"
+        ],
+        "parallel": false
+      }
+    },
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/api",
+        "main": "libs/api/src/index.ts",
+        "tsConfig": "libs/api/tsconfig.lib.json",
+        "assets": ["libs/api/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/api"],
+      "options": {
+        "jestConfig": "libs/api/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
