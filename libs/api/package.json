@@ -1,8 +1,5 @@
 {
   "name": "@heni-gql/api",
   "version": "0.0.1",
-  "type": "commonjs",
-  "dependencies": {
-    "@graphql-codegen/cli": "^2.8.0"
-  }
+  "type": "commonjs"
 }

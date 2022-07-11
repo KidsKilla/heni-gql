@@ -11,23 +11,12 @@ export function App() {
 
   const { error, data } = ctx;
   if (error) {
-    return (
-      <PageError
-        name={error.name}
-        message={error.message}
-        stack={error.stack}
-      />
-    );
+    return <PageError title={error.name} error={error} />;
   }
 
   if (!data) {
-    const noDataError = new Error('No data was fetched');
     return (
-      <PageError
-        name="WAT???"
-        message={noDataError.message}
-        stack={noDataError.stack}
-      />
+      <PageError title="WAT???" error={new Error('No data was fetched')} />
     );
   }
 
