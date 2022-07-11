@@ -4,7 +4,7 @@ import { buildGqlQuery } from '../gql/buildGqlQuery';
 import { ApplyGQLFilter, GQLFilter } from '../gql/GQLFilter';
 
 export type WorldDataFilter = GQLFilter<QueryListsSchema>;
-export const useAllCountries = <Q extends WorldDataFilter>(query: Q) =>
+export const useQueryAllCountries = <Q extends WorldDataFilter>(query: Q) =>
   useQuery<ApplyGQLFilter<QueryListsSchema, Q>>(
     gql(buildGqlQuery('GetCountriesData', query))
   );

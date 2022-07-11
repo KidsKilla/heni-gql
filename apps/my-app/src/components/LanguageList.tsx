@@ -1,9 +1,10 @@
 import { PaginationByIndex, usePagination } from '@heni-gql/ui';
+import { Box } from '@mui/material';
 import { useWorldData } from '../data/useWorldData';
-import { LanguageItem } from './LanguageItem';
+import { CountriesListCollapse } from './CountriesListCollapse';
 
 export const LanguageList = () => {
-  const { langToCoutry, languages, countries } = useWorldData();
+  const { langToCoutry, languages } = useWorldData();
 
   const pages = usePagination({
     list: languages.ids ?? [],
@@ -21,12 +22,16 @@ export const LanguageList = () => {
       <ol start={pages.offsetItems + 1}>
         {pages.pageItems.map((lid) => {
           const lang = languages.byId[lid];
-          const langCountries = langToCoutry[lid]?.map(
-            (cid) => countries.byId[cid]
-          );
           return (
             <li key={lang.code}>
-              <LanguageItem name={lang.name} countries={langCountries} />
+              <Box sx={{ py: 1 }}>
+                <strong>🗣 {lang.name}</strong>{' '}
+                {langToCoutry[lid].length === 1 ? (
+                  <DisplayCountry code={langToCoutry[lid][0]} />
+                ) : (
+                  <CountriesListCollapse countryIds={langToCoutry[lid]} />
+                )}
+              </Box>
             </li>
           );
         })}
@@ -37,6 +42,17 @@ export const LanguageList = () => {
         total={pages.totalPages}
         onChangeIndex={pages.setPage}
       />
+    </>
+  );
+};
+
+const DisplayCountry = ({ code }: { code: string }) => {
+  const { countries, continents } = useWorldData();
+  const country = countries.byId[code];
+  return (
+    <>
+      {country.emoji} {country.name} (
+      {continents.byId[country.continent.code].name})
     </>
   );
 };

@@ -12,7 +12,7 @@ export type ApplyGQLFilter<T, Q extends GQLFilter<T>> = {
       T[K]
     : Q[K] extends undefined
     ? never
-    : // @ts-expect-error ☝️
+    : // @ts-expect-error the one above ☝️
     T[K] extends Array<infer It>
     ? Array<
         ApplyGQLFilter<
@@ -21,6 +21,6 @@ export type ApplyGQLFilter<T, Q extends GQLFilter<T>> = {
           Q[K]
         >
       >
-    : // @ts-expect-error ☝️
+    : // @ts-expect-error one of the above ☝️
       ApplyGQLFilter<T[K], Q[K]>;
 };

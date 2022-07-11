@@ -20,7 +20,6 @@
     "start": "craco start",
     "build": "BUILD_PATH=../../dist/apps/my-app craco build",
     "test": "craco test",
-    "lint": "eslint ./src",
     "serve": "npm start"
   },
   "eslintConfig": {

@@ -1,8 +1,8 @@
 import { createContext, ReactNode } from 'react';
-import { useAllCountries } from '@heni-gql/api';
+import { useQueryAllCountries } from '@heni-gql/api';
 
 const useAPI = () =>
-  useAllCountries({
+  useQueryAllCountries({
     continents: {
       code: true,
       name: true,

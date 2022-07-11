@@ -1,12 +1,13 @@
 import { useState } from 'react';
 
-export const usePagination = <In, Out>({
+export const usePagination = <In>({
   list,
   pageSize,
 }: {
   list: In[];
   pageSize: number;
 }) => {
+  // eslint-disable-next-line no-self-compare
   if (pageSize !== pageSize) {
     throw new Error('[usePagination] pageSize is NaN');
   }

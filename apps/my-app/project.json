@@ -2,5 +2,14 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/my-app/src",
   "projectType": "application",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/api/**/*.{ts,tsx}"]
+      }
+    }
+  },
   "tags": []
 }

@@ -27,6 +27,7 @@ export const useWorldData = () => {
       });
     });
     return lMap;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cntr.hash]);
 
   return {
