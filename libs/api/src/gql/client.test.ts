@@ -1,7 +1,8 @@
+import { enableFetchMocks } from 'jest-fetch-mock';
 import { ApolloClient } from '@apollo/client';
 import { client } from './client';
 
-beforeAll(() => jest.spyOn(window, 'fetch'));
+beforeAll(() => enableFetchMocks());
 
 describe('client', () => {
   it('should work', () => {
