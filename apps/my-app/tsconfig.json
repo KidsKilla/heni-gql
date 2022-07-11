@@ -22,6 +22,6 @@
   },
   "include": [
     "src"
-  ],
+, "../../libs/ui/src/lib/PageError.tsx"  ],
   "extends": "../../tsconfig.base.json"
 }

@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import { PageWrapper } from './PageWrapper';
 
 export const PageError = (props: {
@@ -6,8 +7,12 @@ export const PageError = (props: {
   stack?: string;
 }) => (
   <PageWrapper title="Not good :(">
-    <h2>{props.name}</h2>
-    <p>{props.message}</p>
+    <Typography variant="h2" gutterBottom>
+      {props.name}
+    </Typography>
+
+    <Typography variant="body1">{props.message}</Typography>
+
     <pre>
       <code>{props.stack}</code>
     </pre>
