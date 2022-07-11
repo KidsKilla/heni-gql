@@ -1,13 +1,6 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  List,
-  ListItem,
-  ListItemText,
-} from '@mui/material';
+import { List, ListItem, ListItemText } from '@mui/material';
+import { CountryLanguage, Popup } from '@heni-gql/ui';
 import { useWorldData } from '../data/useWorldData';
-import { CountryLanguage } from './CountryLanguage';
 
 export const CountryDialog = ({
   coutryId,
@@ -23,41 +16,38 @@ export const CountryDialog = ({
 
   const country = countries.byId[coutryId];
   return (
-    <Dialog onClose={onClose} open={true} sx={{ minWidth: '30%' }}>
-      <DialogTitle>
-        {country.emoji} {country.name}
-      </DialogTitle>
-      <DialogContent>
-        <List>
+    <Popup
+      title={`${country.emoji} ${country.name}`}
+      onClose={onClose}
+      isOpen={true}
+    >
+      <List>
+        {(
+          [
+            ['Capital:', country.capital],
+            ['Currency:', country.currency],
+            ['Continent:', continents.byId[country.continent.code].name],
+          ] as const
+        ).map((itm) => (
           <ListItem>
-            <ListItemText primary="Capital:" secondary={country.capital} />
+            <ListItemText primary={itm[0]} secondary={itm[1]} />
           </ListItem>
-          <ListItem>
-            <ListItemText primary="Currency:" secondary={country.currency} />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary="Continent:"
-              secondary={continents.byId[country.continent.code].name}
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary="Languages:"
-              secondaryTypographyProps={{
-                itemType: 'div',
-              }}
-              secondary={
-                <CountryLanguage
-                  langs={country.languages.map(
-                    (lng) => languages.byId[lng.code]
-                  )}
-                />
-              }
-            />
-          </ListItem>
-        </List>
-      </DialogContent>
-    </Dialog>
+        ))}
+
+        <ListItem>
+          <ListItemText
+            primary="Languages:"
+            secondaryTypographyProps={{
+              itemType: 'div',
+            }}
+            secondary={
+              <CountryLanguage
+                langs={country.languages.map((lng) => languages.byId[lng.code])}
+              />
+            }
+          />
+        </ListItem>
+      </List>
+    </Popup>
   );
 };

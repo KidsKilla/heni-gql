@@ -1,5 +1,5 @@
 import { useContext, useMemo } from 'react';
-import { useNormalisedData } from '@heni-gql/api';
+import { apiType, useNormalisedData } from '@heni-gql/api';
 import { wdContext } from './wdContext';
 
 export const useWorldData = () => {
@@ -15,24 +15,42 @@ export const useWorldData = () => {
   const cont = useNormalisedData(data.continents);
   const lngs = useNormalisedData(data.languages);
 
-  const LNG_TO_COUNTRY = useMemo(() => {
-    const lMap: Record<string, string[]> = {};
-    cntr.ids.forEach((cntrId) => {
-      const coutry = cntr.byId[cntrId];
-      coutry.languages.forEach((l) => {
-        if (!lMap[l.code]) {
-          lMap[l.code] = [];
+  const { langToCoutry, continentToCountry } = useMemo(() => {
+    const langMap: Record<
+      apiType.Language['code'],
+      Array<apiType.Country['code']>
+    > = {};
+
+    const contMap: Record<
+      apiType.Continent['code'],
+      Array<apiType.Country['code']>
+    > = {};
+
+    data.countries.forEach((country) => {
+      const contId = country.continent.code;
+      if (!(contId in contMap)) {
+        contMap[contId] = [];
+      }
+      contMap[contId].push(country.code);
+
+      country.languages.forEach((lang) => {
+        if (!langMap[lang.code]) {
+          langMap[lang.code] = [];
         }
-        lMap[l.code].push(coutry.code);
+        langMap[lang.code].push(country.code);
       });
     });
-    return lMap;
+    return {
+      langToCoutry: langMap,
+      continentToCountry: contMap,
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cntr.hash]);
 
   return {
     data,
-    langToCoutry: LNG_TO_COUNTRY,
+    langToCoutry,
+    continentToCountry,
     languages: lngs,
     countries: cntr,
     continents: cont,

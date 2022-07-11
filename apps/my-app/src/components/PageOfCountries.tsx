@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { PaginationByIndex, usePagination } from '@heni-gql/ui';
-import { List } from '@mui/material';
+import {
+  PaginationByIndex,
+  usePagination,
+  CountryList,
+  CountryListItem,
+} from '@heni-gql/ui';
 import { useWorldData } from '../data/useWorldData';
 import { CountryDialog } from './CountryDialog';
-import { CoutryItem } from './CountryItem';
 
-export const CountryList = () => {
+export const PageOfCountries = () => {
   const { countries } = useWorldData();
 
   const pages = usePagination({
@@ -24,11 +27,11 @@ export const CountryList = () => {
         onChangeIndex={pages.setPage}
       />
 
-      <List sx={{ bgcolor: 'background.paper' }}>
+      <CountryList>
         {pages.pageItems.map((cid, i) => {
           const country = countries.byId[cid];
           return (
-            <CoutryItem
+            <CountryListItem
               key={cid}
               onSelect={() => setOpenCid(cid)}
               flag={country.emoji}
@@ -38,7 +41,7 @@ export const CountryList = () => {
             />
           );
         })}
-      </List>
+      </CountryList>
 
       <PaginationByIndex
         current={pages.currentPage}

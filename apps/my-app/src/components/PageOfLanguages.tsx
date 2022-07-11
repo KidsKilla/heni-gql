@@ -1,9 +1,8 @@
-import { PaginationByIndex, usePagination } from '@heni-gql/ui';
-import { Box } from '@mui/material';
+import { OrderedList, PaginationByIndex, usePagination } from '@heni-gql/ui';
 import { useWorldData } from '../data/useWorldData';
 import { CountriesListCollapse } from './CountriesListCollapse';
 
-export const LanguageList = () => {
+export const PageOfLanguages = () => {
   const { langToCoutry, languages } = useWorldData();
 
   const pages = usePagination({
@@ -19,23 +18,19 @@ export const LanguageList = () => {
         onChangeIndex={pages.setPage}
       />
 
-      <ol start={pages.offsetItems + 1}>
-        {pages.pageItems.map((lid) => {
-          const lang = languages.byId[lid];
-          return (
-            <li key={lang.code}>
-              <Box sx={{ py: 1 }}>
-                <strong>🗣 {lang.name}</strong>{' '}
-                {langToCoutry[lid].length === 1 ? (
-                  <DisplayCountry code={langToCoutry[lid][0]} />
-                ) : (
-                  <CountriesListCollapse countryIds={langToCoutry[lid]} />
-                )}
-              </Box>
-            </li>
-          );
-        })}
-      </ol>
+      <OrderedList
+        ids={pages.pageItems}
+        renderItem={(lid) => (
+          <>
+            <strong>🗣 {languages.byId[lid].name}</strong>{' '}
+            {langToCoutry[lid].length === 1 ? (
+              <DisplayOneCountry code={langToCoutry[lid][0]} />
+            ) : (
+              <CountriesListCollapse countryIds={langToCoutry[lid]} />
+            )}
+          </>
+        )}
+      />
 
       <PaginationByIndex
         current={pages.currentPage}
@@ -46,7 +41,7 @@ export const LanguageList = () => {
   );
 };
 
-const DisplayCountry = ({ code }: { code: string }) => {
+const DisplayOneCountry = ({ code }: { code: string }) => {
   const { countries, continents } = useWorldData();
   const country = countries.byId[code];
   return (

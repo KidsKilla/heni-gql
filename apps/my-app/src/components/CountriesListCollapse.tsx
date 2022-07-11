@@ -1,36 +1,22 @@
-import { useState } from 'react';
-import { Chip, Collapse } from '@mui/material';
+import { ChipAndCollapse } from '@heni-gql/ui';
+import { apiType } from '@heni-gql/api';
 import { useWorldData } from '../data/useWorldData';
 
 export const CountriesListCollapse = ({
   countryIds,
 }: {
-  countryIds: string[];
+  countryIds: Array<apiType.Country['code']>;
 }) => {
-  const [isOpen, setOpen] = useState(false);
   const { countries } = useWorldData();
-
   return (
-    <>
-      <Chip
-        variant="outlined"
-        size="small"
-        label={`${countryIds.length} coutrues`}
-        onClick={() => setOpen(!isOpen)}
-      />
-
-      <Collapse in={isOpen} timeout="auto" unmountOnExit>
-        <ol>
-          {countryIds.map((cid) => {
-            const country = countries.byId[cid];
-            return (
-              <li key={cid}>
-                {country.emoji} {country.name}
-              </li>
-            );
-          })}
-        </ol>
-      </Collapse>
-    </>
+    <ChipAndCollapse
+      ids={countryIds}
+      label={`${countryIds.length} coutrues`}
+      renderItem={(cid) => (
+        <>
+          {countries.byId[cid].emoji} {countries.byId[cid].name}
+        </>
+      )}
+    />
   );
 };

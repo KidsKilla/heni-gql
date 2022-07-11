@@ -1,16 +1,17 @@
-import { FlagAvatar } from '@heni-gql/ui';
-import { Chip, ListItemButton, ListItemText } from '@mui/material';
+import { ReactNode } from 'react';
+import { FlagAvatar } from './FlagAvatar';
+import { Chip, List, ListItemButton, ListItemText } from '@mui/material';
 
-export const CoutryItem = (props: {
+export const CountryList = ({ children }: { children: ReactNode }) => (
+  <List sx={{ bgcolor: 'background.paper' }}>{children}</List>
+);
+
+export const CountryListItem = (props: {
   name: string;
   flag: string;
   capital: string;
   currency: string;
   onSelect: () => void;
-  // langs?: Array<{
-  //   name: string;
-  //   code: string;
-  // }>;
 }) => (
   <ListItemButton
     alignItems="flex-start"

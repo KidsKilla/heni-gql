@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { PageWrapper, TabBody, TabHead } from '@heni-gql/ui';
-import { ContinentsList } from './ContinentsList';
-import { CountryList } from './CountryList';
-import { LanguageList } from './LanguageList';
+import { PageOfContinents } from './PageOfContinents';
+import { PageOfCountries } from './PageOfCountries';
+import { PageOfLanguages } from './PageOfLanguages';
 
 export const PageWithData = () => {
   const [value, setValue] = useState(0);
@@ -16,13 +16,13 @@ export const PageWithData = () => {
       />
 
       <TabBody value={value} index={0}>
-        <CountryList />
+        <PageOfCountries />
       </TabBody>
       <TabBody value={value} index={1}>
-        <ContinentsList />
+        <PageOfContinents />
       </TabBody>
       <TabBody value={value} index={2}>
-        <LanguageList />
+        <PageOfLanguages />
       </TabBody>
     </PageWrapper>
   );
