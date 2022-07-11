@@ -18,6 +18,6 @@ jobs:
       - name: 🛠 Build
         run: yarn build
       - name: 💅 Lint
-        run: yarn lint
+        run: yarn lint --verbose
       - name: 🛠 Test
         run: yarn test

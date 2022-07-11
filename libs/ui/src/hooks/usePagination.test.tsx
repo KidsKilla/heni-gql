@@ -82,7 +82,7 @@ describe('usePagination', () => {
   });
 
   describe('updates', () => {
-    it('page 2', () => {
+    it('page 1 -> 2 -> 0', () => {
       const { result } = renderHook(() =>
         usePagination({
           list: [1, 2, 3, 4, 5],
@@ -115,6 +115,23 @@ describe('usePagination', () => {
           "offsetItems": 4,
           "pageItems": Array [
             5,
+          ],
+          "pageSize": 2,
+          "setPage": [Function],
+          "totalItems": 5,
+          "totalPages": 3,
+        }
+      `);
+      act(() => {
+        result.current.setPage(0);
+      });
+      expect(result.current).toMatchInlineSnapshot(`
+        Object {
+          "currentPage": 0,
+          "offsetItems": 0,
+          "pageItems": Array [
+            1,
+            2,
           ],
           "pageSize": 2,
           "setPage": [Function],

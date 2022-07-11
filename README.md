@@ -8,7 +8,20 @@
 
 ## About
 
+### Running
+
+- `yarn start` starts dev server and open browser at `http://localhost:3000/`
+- `yarn build` builds deployable artifacts at `./dist/` location
+- `yarn lint` runs eslint over the code
+- `yarn test` runs unit tests with Jest
+
+### CI
+
 ![workflow status](https://github.com/KidsKilla/heni-gql/actions/workflows/universal.yml/badge.svg)
+
+GHA is used as CI. Runs basic sanity checks: `yarn build`, `yarn lint`, `yarn test`.
+
+## Implementation details
 
 This is an example of "simple" usage of apollo. Here I use one "one big" query. Approximately same data is needed anywhere.
 
@@ -59,8 +72,12 @@ There is no `e2e` tests implemented, although easiest way would be to use `cypre
 
 Unit tests are not exhaustive at all, since the main purpose of the repo is to show the approaches: pure unit tests / react component / react hooks. These tests are more like an examples. In real codebase most of the files would have a relevant `*.test.ts` file next to it.
 
+### create-react-app
+
+App is based on [create-react-app](./README_CRA.md).
+
 ### NX
 
-This tool was chosen just to speed-up and simplify configuration for "libraries". And just to try.
+[This tool](./README_NX.md) was chosen just to speed-up and simplify configuration for "libraries". And just to try.
 Most of the confuguration is generated and never changed manually.
 Summary: nice tool, helps a bit, but it seems a bit too magical when using full-scale. Cannot say I'm a big fan.
