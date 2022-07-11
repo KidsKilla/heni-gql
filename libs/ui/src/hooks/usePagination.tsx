@@ -1,28 +1,30 @@
-import { Pagination } from '@mui/material';
 import { useState } from 'react';
 
-export const usePagination = <In, Out>(props: {
+export const usePagination = <In, Out>({
+  list,
+  pageSize,
+}: {
   list: In[];
   pageSize: number;
 }) => {
+  if (pageSize !== pageSize) {
+    throw new Error('[usePagination] pageSize is NaN');
+  }
+  if (pageSize < 1) {
+    throw new Error('[usePagination] pageSize < 1');
+  }
   const [currentPage, setPage] = useState(0);
-  const maxPages = Math.ceil(props.list.length / props.pageSize);
-  const offsetItems = currentPage * props.pageSize;
-  const pageItems = props.list.slice(offsetItems, offsetItems + props.pageSize);
+  const totalPages = Math.ceil(list.length / pageSize);
+  const offsetItems = currentPage * pageSize;
+  const pageItems = list.slice(offsetItems, offsetItems + pageSize);
 
   return {
     pageItems,
-    totalPages: maxPages,
-    totalItems: props.list.length,
-    pageSize: props.pageSize,
-    offsetItems,
     currentPage,
-    renderPager: () => (
-      <Pagination
-        page={currentPage + 1}
-        count={maxPages}
-        onChange={(_event, value) => setPage(value - 1)}
-      />
-    ),
+    totalPages,
+    totalItems: list.length,
+    pageSize,
+    offsetItems,
+    setPage,
   };
 };
